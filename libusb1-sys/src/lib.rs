@@ -3,7 +3,7 @@
 pub mod constants;
 
 use self::constants::*;
-use libc::{c_char, c_int, c_short, c_uchar, c_uint, c_void, ssize_t, timeval};
+use libc::{c_char, c_int, c_short, c_uchar, c_uint, c_void, size_t, ssize_t, timeval};
 
 #[repr(C)]
 pub struct libusb_context {
@@ -490,6 +490,9 @@ extern "system" {
         length: u16,
         timeout: c_uint,
     ) -> c_int;
+
+    pub fn libusb_dev_mem_alloc(dev_handle: *mut libusb_device_handle, length: size_t) -> *mut c_uchar;
+    pub fn libusb_dev_mem_free(dev_handle: *mut libusb_device_handle, buffer: *mut c_uchar, length: size_t);
 
     pub fn libusb_alloc_transfer(iso_packets: c_int) -> *mut libusb_transfer;
     pub fn libusb_submit_transfer(transfer: *mut libusb_transfer) -> c_int;
